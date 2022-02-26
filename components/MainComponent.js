@@ -78,8 +78,18 @@ const AboutNavigator = createStackNavigator(
         }
     }
 );
+const MainNavigator =createDrawerNavigator(
+    {
+        Home: {screen: HomeNavigator},
+        Directory: {screen: DirectoryNavigator},
+        About:{screen: AboutNavigator},
+        Contact:{screen: ContactNavigator},
+    },
+ {
+     drawerBackgroundColor: "#CEC8FF",
+ }
+);
 const AppNavigator = createAppContainer(MainNavigator);
-
 class Main extends Component {
     render() {
         return (
