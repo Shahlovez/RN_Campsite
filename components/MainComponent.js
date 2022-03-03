@@ -118,7 +118,28 @@ const AboutNavigator = createStackNavigator(
         })
     }
 );
-
+const ReservationNavigator = createStackNavigator(
+    {
+        Reservation: { screen: Reservation }
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='tree'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
 const CustomDrawerContentComponent = props => (
     <ScrollView>
         <SafeAreaView 
@@ -261,27 +282,5 @@ const styles = StyleSheet.create({
         fontSize: 24
     }
 })
-const ReservationNavigator = createStackNavigator(
-    {
-        Reservation: { screen: Reservation }
-    },
-    {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            },
-            headerLeft: <Icon
-                name='tree'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
-    }
-);
 
 export default connect(null, mapDispatchToProps)(Main);
