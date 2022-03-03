@@ -77,7 +77,7 @@ class CampsiteInfo extends Component {
 
     render() {
         const campsiteId = this.props.navigation.getParam('campsiteId');
-        const campsite = this.props.capmsites.campsites.filter(campsite => campsite.id === campsiteId)[0];
+        const campsite = this.props.campsites.campsites.filter(campsite => campsite.id === campsiteId)[0];
         const comments = this.props.comments.comments.filter(comment => comment.campsiteId === campsiteId);
         return( 
         <ScrollView>
