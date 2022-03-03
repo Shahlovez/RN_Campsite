@@ -8,7 +8,6 @@ import { baseUrl } from '../shared/baseUrl';
 const mapStateToProps = state => {
     return {
         campsites: state.campsites
-
     };
 };
 class Directory extends Component {
