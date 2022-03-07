@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from 'react-native';
-import { Card, Icon, CardRow, Input, Rating} from 'react-native-elements';
+import { Card, Icon, Input, Rating} from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
@@ -14,7 +14,7 @@ const mapStateToProps = state => {
     };
 };
 const mapDispatchToProps = {
-    postFavorite: campsiteId => (postFavorite(campsiteId)),
+    postFavorite: (campsiteId) => postFavorite(campsiteId),
     postComment: (campsiteId, rating, author, text) => postComment(campsiteId, rating, author, text) 
 };
 
@@ -107,7 +107,6 @@ class CampsiteInfo extends Component {
     
     this.toggleModal();
 }
-​
 resetForm(){
     this.setState({
         showModal: false,
@@ -116,7 +115,6 @@ resetForm(){
         text:''
     });
 }
-​
     markFavorite(campsiteId) {
         this.props.postFavorite(campsiteId);
     }
@@ -176,8 +174,6 @@ resetForm(){
                                 title='Submit'
                             />
                         </View>
-​
-​
                         <View style={{margin: 10}}>
                             <Button
                                 onPress={() => {
@@ -195,7 +191,6 @@ resetForm(){
         )
     }
 }
-​
 const styles = StyleSheet.create({
     cardRow: {
         alignItems: 'center',
