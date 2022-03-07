@@ -53,35 +53,35 @@ function RenderCampsite(props) {
   const {campsite} = props;
     if (campsite) {
         return (
-            <Card
-                featuredTitle={campsite.name}
-                image={{uri: baseUrl + campsite.image}}>
-            
-                <Text style={{margin: 10}}>
-                    {campsite.description}
-                </Text>
-                <View style={styles.cardRow}>
-                <Icon
-                    name={props.favorite ? 'heart' : 'heart-o'}
-                    type='font-awesome'
-                    color='#f50'
-                    raised
-                    reverse
-                    onPress={() => props.favorite ? 
-                        console.log('Already set as a favorite') : props.markFavorite()}
-                />
-                <Icon
-                    name='pencil'
-                    type='font-awesome'
-                    color='#5637DD'
-                    raised
-                    reverse
-                    onPress={() => props.onShowModal()}         
-                />
-          </View>
-            </Card>
-        );
-    }
+    <Card
+        featuredTitle={campsite.name}
+        image={{uri: baseUrl + campsite.image}}>
+    
+        <Text style={{margin: 10}}>
+            {campsite.description}
+        </Text>
+        <View style={styles.cardRow}>
+        <Icon
+            name={props.favorite ? 'heart' : 'heart-o'}
+            type='font-awesome'
+            color='#f50'
+            raised
+            reverse
+            onPress={() => props.favorite ? 
+                console.log('Already set as a favorite') : props.markFavorite()}
+        />
+        <Icon
+            name='pencil'
+            type='font-awesome'
+            color='#5637DD'
+            raised
+            reverse
+            onPress={() => props.onShowModal()}         
+        />
+    </View>
+    </Card>
+);
+}
     return <View />;
 }
 class CampsiteInfo extends Component {
@@ -130,65 +130,65 @@ resetForm(){
         const comments = this.props.comments.comments.filter(comment => comment.campsiteId === campsiteId);
         return( 
         <ScrollView>
-            <RenderCampsite campsite={campsite} 
-                    favorite={this.props.favorites.includes(campsiteId)}
-                    markFavorite={() => this.markFavorite(campsiteId)}
-                    onShowModal={() => this.toggleModal()}
-            />
-            <RenderComments comments={comments} />
-            <Modal comments={this.props.comments}
-                    animationType={'slide'}
-                    transparent={false}
-                    visible={this.state.showModal}
-                    onRequestClose={() => this.toggleModal()}
-                >
-                    <View style={styles.modal}>
-                        <Rating 
-                             showRating
-                             ratingCount={5} 
-                             startingValue={this.state.rating}
-                             imageSize={40}
-                             onFinishRating={rating => this.setState({rating: rating})}
-                             style={{paddingVertical: 10}}
-                        />
-                        <Input 
-                            placeholder='Author'
-                            leftIcon= {{ type: 'font-awesome', name: 'user-o' }}
-                            leftIconContainerStyle={{paddingRight: 10}}
-                            onChangeText={author => this.setState({author: author})}
-                            value={this.state.author}
-                        />
-                        <Input 
-                            placeholder='Comment'
-                            leftIcon= {{ type: 'font-awesome', name: 'user-o'}}
-                            leftIconContainerStyle={{paddingRight: 10}}
-                            onChangeText={text => this.setState({text: text})}
-                            value={this.state.text}
-                        />
-                        <View>
-                            <Button
-                                onPress={() => {
-                                    this.handleComment(campsiteId);
-                                    this.resetForm();
-                                }}
-                                color='#5637DD'
-                                title='Submit'
-                            />
-                        </View>
-                        <View style={{margin: 10}}>
-                            <Button
-                                onPress={() => {
-                                    this.toggleModal();
-                                    this.handleComment(campsiteId)
-                                    this.resetForm()
-                                }}
-                                color='#808080'
-                                title='Cancel'
-                            />
-                        </View>
-                    </View>
-                </Modal>   
-            </ScrollView>
+    <RenderCampsite campsite={campsite} 
+            favorite={this.props.favorites.includes(campsiteId)}
+            markFavorite={() => this.markFavorite(campsiteId)}
+            onShowModal={() => this.toggleModal()}
+    />
+    <RenderComments comments={comments} />
+    <Modal comments={this.props.comments}
+            animationType={'slide'}
+            transparent={false}
+            visible={this.state.showModal}
+            onRequestClose={() => this.toggleModal()}
+        >
+            <View style={styles.modal}>
+                <Rating 
+                        showRating
+                        ratingCount={5} 
+                        startingValue={this.state.rating}
+                        imageSize={40}
+                        onFinishRating={rating => this.setState({rating: rating})}
+                        style={{paddingVertical: 10}}
+                />
+                <Input 
+                    placeholder='Author'
+                    leftIcon= {{ type: 'font-awesome', name: 'user-o' }}
+                    leftIconContainerStyle={{paddingRight: 10}}
+                    onChangeText={author => this.setState({author: author})}
+                    value={this.state.author}
+                />
+                <Input 
+                    placeholder='Comment'
+                    leftIcon= {{ type: 'font-awesome', name: 'user-o'}}
+                    leftIconContainerStyle={{paddingRight: 10}}
+                    onChangeText={text => this.setState({text: text})}
+                    value={this.state.text}
+                />
+                <View>
+                    <Button
+                        onPress={() => {
+                            this.handleComment(campsiteId);
+                            this.resetForm();
+                        }}
+                        color='#5637DD'
+                        title='Submit'
+                    />
+                </View>
+                <View style={{margin: 10}}>
+                    <Button
+                        onPress={() => {
+                            this.toggleModal();
+                            this.handleComment(campsiteId)
+                            this.resetForm()
+                        }}
+                        color='#808080'
+                        title='Cancel'
+                    />
+                </View>
+            </View>
+        </Modal>   
+    </ScrollView>
         )
     }
 }
