@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet } from 'react-native';
-import { Card, Icon, Input, Rating} from 'react-native-elements';
+import { Card, cardRow, Icon, Input, Rating} from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite, postComment } from '../redux/ActionCreators';
+
 
 
 const mapStateToProps = state => {
@@ -29,7 +30,7 @@ function RenderComments({comments}){
                     ratingCount={5} 
                     imageSize={10}
                     style={{alignItems: 'flex-start', paddingVertical: '5%'}}
-                    readonly
+                    readonly={true}
                     />
                 <Text style={{fontSize: 12}}>{`--${item.author}, ${item.date}`}</Text>
             </View>
@@ -100,8 +101,8 @@ class CampsiteInfo extends Component {
  }
  handleComment(campsiteId){
     this.props.postComment(campsiteId, 
-        this.state.author, 
         this.state.rating, 
+        this.state.author, 
         this.state.text
         )
     
@@ -159,7 +160,7 @@ resetForm(){
                         />
                         <Input 
                             placeholder='Comment'
-                            leftIcon= {{ type: 'font-awesome', name: 'comment-o'}}
+                            leftIcon= {{ type: 'font-awesome', name: 'user-o'}}
                             leftIconContainerStyle={{paddingRight: 10}}
                             onChangeText={text => this.setState({text: text})}
                             value={this.state.text}
