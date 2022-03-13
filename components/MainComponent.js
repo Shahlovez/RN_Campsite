@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions,
     fetchPartners } from '../redux/ActionCreators';
 import Favorites from './FavoritesComponent';
+import Login from './LoginComponent';
 
 
 const mapDispatchToProps = {
@@ -97,7 +98,7 @@ const AboutNavigator = createStackNavigator(
         })
     }
 );
-  const ContactNavigator = createStackNavigator(
+const ContactNavigator = createStackNavigator(
     {
       Contact: { screen: Contact }
     },
@@ -164,6 +165,28 @@ const FavoritesNavigator = createStackNavigator(
         })
     }
 );
+const LoginNavigator = createStackNavigator(
+    {
+        Login: { screen: Login }
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='sign-in'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
 const CustomDrawerContentComponent = props => (
     <ScrollView>
         <SafeAreaView 
@@ -184,6 +207,19 @@ const CustomDrawerContentComponent = props => (
 
 const MainNavigator =createDrawerNavigator(
     {
+        Login: {
+            screen: LoginNavigator,
+            navigationOptions: {
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='sign-in'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
         Home: {
             screen: HomeNavigator,
             navigationOptions: {
@@ -198,10 +234,10 @@ const MainNavigator =createDrawerNavigator(
         }
     },
     Directory: {
-        screen: DirectoryNavigator,
-        navigationOptions: {
-            drawerIcon: ({tintColor}) => (
-                <Icon
+    screen: DirectoryNavigator,
+    navigationOptions: {
+        drawerIcon: ({tintColor}) => (
+            <Icon
                     name='list'
                     type='font-awesome'
                     size={24}
@@ -268,7 +304,7 @@ const MainNavigator =createDrawerNavigator(
         }
     }
 },
- {
+ {   initialRouteName: 'Home',
      drawerBackgroundColor: "#CEC8FF",
      contentComponent: CustomDrawerContentComponent
  }
