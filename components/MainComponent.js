@@ -10,7 +10,6 @@ import {Icon} from 'react-native-elements';
 import Constants from 'expo-constants';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions,
@@ -310,30 +309,34 @@ const MainNavigator =createDrawerNavigator(
      contentComponent: CustomDrawerContentComponent
  }
 );
-const AppNavigator = createAppContainer(MainNavigator);
 class Main extends Component {
+
+    showNetInfo = async () => {
+        const connectionInfo = await NetInfo.fetch();
+        
+        (Platform.OS === 'ios') ?
+        Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
+        : ToastAndroid.show('Initial Network Connectivity Type: ' +
+        connectionInfo.type, ToastAndroid.LONG);
+    
+        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
+            this.handleConnectivityChange(connectionInfo);
+        });
+    }
+// const AppNavigator = createAppContainer(MainNavigator);
+
     componentDidMount() {
         this.props.fetchCampsites();
         this.props.fetchComments();
         this.props.fetchPromotions();
         this.props.fetchPartners();
-
-        NetInfo.fetch().then(connectionInfo => {
-            (Platform.OS === 'ios')
-                ? Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
-                : ToastAndroid.show('Initial Network Connectivity Type: ' +
-                    connectionInfo.type, ToastAndroid.LONG);
-        });
-
-        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
-            this.handleConnectivityChange(connectionInfo);
-        });
+        this.showNetInfo();
     }
-
+    
     componentWillUnmount() {
         this.unsubscribeNetInfo();
     }
-    
+
     handleConnectivityChange = connectionInfo => {
         let connectionMsg = 'You are now connected to an active network.';
         switch (connectionInfo.type) {
@@ -350,9 +353,7 @@ class Main extends Component {
                 connectionMsg = 'You are now connected to a WiFi network.';
                 break;
         }
-        (Platform.OS === 'ios')
-            ? Alert.alert('Connection change:', connectionMsg)
-            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
+        (Platform.OS === 'ios')? Alert.alert('Connection change:', connectionMsg): ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
     }
     render() {
         return (
@@ -361,7 +362,7 @@ class Main extends Component {
                     flex: 1,
                     paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
             }}>
-                <AppNavigator />
+                <MainNavigator />
             </View>
         );
     }
