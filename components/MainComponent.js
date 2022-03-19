@@ -10,10 +10,10 @@ import {Icon} from 'react-native-elements';
 import Constants from 'expo-constants';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createAppContainer } from "react-navigation";
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
-import { fetchCampsites, fetchComments, fetchPromotions,
-    fetchPartners } from '../redux/ActionCreators';
+import { fetchCampsites, fetchComments, fetchPromotions,fetchPartners } from '../redux/ActionCreators';
 import Favorites from './FavoritesComponent';
 import Login from './LoginComponent';
 import NetInfo from '@react-native-community/netinfo';
@@ -233,10 +233,10 @@ const MainNavigator =createDrawerNavigator(
             )
         }
     },
-    Directory: {
-    screen: DirectoryNavigator,
-    navigationOptions: {
-        drawerIcon: ({tintColor}) => (
+        Directory: {
+        screen: DirectoryNavigator,
+        navigationOptions: {
+            drawerIcon: ({tintColor}) => (
             <Icon
                     name='list'
                     type='font-awesome'
@@ -246,10 +246,10 @@ const MainNavigator =createDrawerNavigator(
             )
         }
     },
-    Reservation: {
+     Reservation: {
         screen: ReservationNavigator,
         navigationOptions: {
-            drawerLabel: 'Reserve Campsite',
+        drawerLabel: 'Reserve Campsite',
             drawerIcon: ({tintColor}) => (
                 <Icon
                     name='tree'
@@ -309,34 +309,33 @@ const MainNavigator =createDrawerNavigator(
      contentComponent: CustomDrawerContentComponent
  }
 );
+
+const AppNavigator = createAppContainer(MainNavigator);
 class Main extends Component {
-
-    showNetInfo = async () => {
-        const connectionInfo = await NetInfo.fetch();
-        
-        (Platform.OS === 'ios') ?
-        Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
-        : ToastAndroid.show('Initial Network Connectivity Type: ' +
-        connectionInfo.type, ToastAndroid.LONG);
-    
-        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
-            this.handleConnectivityChange(connectionInfo);
-        });
-    }
-// const AppNavigator = createAppContainer(MainNavigator);
-
     componentDidMount() {
         this.props.fetchCampsites();
         this.props.fetchComments();
         this.props.fetchPromotions();
         this.props.fetchPartners();
         this.showNetInfo();
+
+        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
+            this.handleConnectivityChange(connectionInfo);
+        });
     }
     
     componentWillUnmount() {
         this.unsubscribeNetInfo();
     }
-
+    showNetInfo = async () => {
+        const connectionInfo = await NetInfo.fetch();
+        (Platform.OS === 'ios') ?
+        Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
+        : ToastAndroid.show('Initial Network Connectivity Type: ' +
+        connectionInfo.type, ToastAndroid.LONG);
+    
+    }
+    
     handleConnectivityChange = connectionInfo => {
         let connectionMsg = 'You are now connected to an active network.';
         switch (connectionInfo.type) {
@@ -357,12 +356,8 @@ class Main extends Component {
     }
     render() {
         return (
-            <View
-                style={{
-                    flex: 1,
-                    paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight
-            }}>
-                <MainNavigator />
+            <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight}}>
+                <AppNavigator />
             </View>
         );
     }
